@@ -1,3 +1,3 @@
 module.exports = {
-    statusCode: require('./statusCode.enum')
+    statusCode: require('./statusCode.enum'),
 }
