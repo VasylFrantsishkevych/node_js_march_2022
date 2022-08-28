@@ -26,7 +26,6 @@ module.exports = {
 
     },
     updateCarByID: async (req, res, next) => {
-        const {carId} = req.params;
         try {
             const { carId } = req.params;
 
