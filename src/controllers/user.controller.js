@@ -1,5 +1,5 @@
 const { statusCode } = require("../constants");
-const { userService } = require("../services");
+const { authService, userService } = require("../services");
 
 module.exports = {
     getAllUsers: async (req, res, next) => {
@@ -14,7 +14,10 @@ module.exports = {
     },
     createUser: async (req, res, next) => {
         try {
-            const setNewUser = await userService.createUser(req.body);
+            // хушуємо пароль юзера
+            const hashPassword = await authService.hashPassword(req.body.password)
+            // записуємо юзера в базу
+            const setNewUser = await userService.createUser({...req.body, password: hashPassword});
 
             res.status(statusCode.CREATE).json(setNewUser)
         } catch (e) {
