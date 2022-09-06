@@ -1,13 +1,15 @@
-const {authService} = require("../services");
+const {authService, tokenService} = require("../services");
 module.exports = {
     login: async (req, res, next) => {
         try {
             const { password: password } = req.body;
             const { password: hashPassword, _id } = req.user;
             // перевіряємо паролі на співпадіння
-            await authService.comparePasswords(password, hashPassword);
+            await tokenService.comparePasswords(password, hashPassword);
             // створюємо пару токенів
-            const authTokens = authService.createAuthTokens({_id});
+            const authTokens = tokenService.createAuthTokens({_id});
+            // зберагаємо токена в базу
+            await authService.saveTokens({...authTokens, user: _id})
 
             res.json({
                 ...authTokens,
