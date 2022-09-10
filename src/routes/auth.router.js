@@ -6,8 +6,14 @@ const authRouter = Router();
 
 authRouter.post(
     '/login',
-    userMiddleware.getUserDynamicaly('body', 'email', 'email'),
+    userMiddleware.getUserDynamicaly('body', 'email'),
     authController.login
+);
+
+authRouter.post(
+    '/logout',
+    authMiddleware.checkIsAccessToken,
+    authController.logout
 );
 
 authRouter.post(

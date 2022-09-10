@@ -2,7 +2,11 @@ const bcrypt = require('bcrypt');
 const {statusCode, tokenTypeEnum} = require("../constants");
 const {ApiError} = require("../errors");
 const jwt = require('jsonwebtoken');
-const {ACCESS_SECRET_WORD, REFRESH_SECRET_WORD} = require('../configs/configs')
+const {
+    ACCESS_SECRET_WORD,
+    REFRESH_SECRET_WORD,
+    ACCESS_TOKEN_LIFETIME,
+    REFRESH_TOKEN_LIFETIME} = require('../configs/configs')
 
 module.exports = {
     // хешуємо пароль
@@ -17,8 +21,8 @@ module.exports = {
     },
     // генеруємо токени
     createAuthTokens: (payload = {}) => {
-        const accessToken = jwt.sign(payload, ACCESS_SECRET_WORD, { expiresIn: '30s'})
-        const refreshToken = jwt.sign(payload, REFRESH_SECRET_WORD, { expiresIn: '30d'})
+        const accessToken = jwt.sign(payload, ACCESS_SECRET_WORD, { expiresIn: ACCESS_TOKEN_LIFETIME})
+        const refreshToken = jwt.sign(payload, REFRESH_SECRET_WORD, { expiresIn: REFRESH_TOKEN_LIFETIME})
 
         return {
             accessToken,

@@ -20,6 +20,7 @@ module.exports = {
                 return next(ApiError('Not valid token', statusCode.UNAUTHORIZED));
             }
 
+            req.tokenInfo = tokenInfo;
             next();
         } catch (e) {
             next(e);
