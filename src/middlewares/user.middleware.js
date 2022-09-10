@@ -2,20 +2,19 @@ const {statusCode} = require('../constants');
 const {ApiError} = require("../errors");
 const {userService} = require("../services");
 const {User} = require("../db");
+const {userValidator} = require("../validators");
 
 module.exports = {
     checkIsUserBodyValid: async (req, res, next) => {
         try {
-            const {age, name} = req.body;
+            
+            const validate = userValidator.newUserValidator.validate(req.body);
 
-            if (Number.isNaN(+age) || age <= 0) {
-               return (new ApiError('Wrong user age', statusCode.BAD_REQUEST));
+            if (validate.error) {
+                return next(new ApiError(validate.error.message, statusCode.BAD_REQUEST));
             }
 
-            if (name.length < 2) {
-                return (new ApiError('Wrong user name', statusCode.BAD_REQUEST));
-            }
-
+            req.body = validate.value;
             next();
         } catch (e) {
             next(e);
@@ -28,9 +27,9 @@ module.exports = {
             const { email } = req.body;
             const { userId } = req.params;
             // шукаємо юзера по емейлу
-            const userByEmail = await userService.getOneByParams( {email});
+            const userByEmail = await userService.getOneByParams( { email, _id: { $ne: userId } });
             // перевіряємо чи такий користувач є, якщо є то такий емеіл зайнятий
-            if (userByEmail && userByEmail._id.toString() !== userId) {
+            if (userByEmail) {
                 return next(new ApiError('Email is exist in database', statusCode.CONFLICT))
             }
 
