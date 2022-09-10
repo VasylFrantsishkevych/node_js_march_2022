@@ -8,4 +8,12 @@ module.exports = {
     getOneWithUser(filter) {
         return Auth.findOne(filter).populate('user')
     },
+
+    getOneByParams(filter) {
+        return Auth.findOne(filter)
+    },
+
+    deleteOneByParams(filter) {
+        return Auth.deleteOne(filter)
+    }
 }
