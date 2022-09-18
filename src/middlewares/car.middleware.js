@@ -1,31 +1,22 @@
 const {statusCode} = require('../constants');
-const {ApiError} = require("../errors");
-const {carService} = require("../services");
+const {ApiError} = require('../errors');
+const {carService} = require('../services');
 
 module.exports = {
-    checkIsCarBodyValid: async (req, res, next) => {
-        try {
+  isCarPresent: async (req, res, next) => {
+    try {
+      const {carId} = req.params;
 
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
+      const car = await carService.getById(carId);
 
-    isCarPresent: async (req, res, next) => {
-        try {
-            const {carId} = req.params;
+      if (!car) {
+        return next(new ApiError('Car with this id is not exist', statusCode.NOT_FOUND));
+      }
 
-            const car = await carService.getById(carId);
-
-            if (!car) {
-                return next(new ApiError('Car with this id is not exist', statusCode.NOT_FOUND))
-            }
-
-            req.car = car;
-            next();
-        } catch (e) {
-            next(e);
-        }
+      req.car = car;
+      next();
+    } catch (e) {
+      next(e);
     }
-}
+  }
+};

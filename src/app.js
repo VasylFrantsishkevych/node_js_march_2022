@@ -3,8 +3,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 const { userRouter, carRouter, authRouter} = require('./routes');
-const { mainErrorHandler } = require("./errors");
-const {PORT, MONGO_URL} = require("./configs/configs");
+const { mainErrorHandler } = require('./errors');
+const {PORT, MONGO_URL} = require('./configs/configs');
 
 const app = express();
 
@@ -16,12 +16,13 @@ app.use('/cars', carRouter);
 app.use('/users', userRouter);
 
 app.use('*', (req, res, next) => {
-    next(new Error('Route not found'))
+  next(new Error('Route not found'));
 });
 
 app.use(mainErrorHandler);
 
 app.listen(PORT, () => {
-    console.log('App listen ', PORT);
-    mongoose.connect(MONGO_URL);
-})
+  // eslint-disable-next-line no-console
+  console.log('App listen ', PORT);
+  mongoose.connect(MONGO_URL);
+});
