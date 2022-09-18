@@ -2,25 +2,8 @@ const {statusCode} = require('../constants');
 const {ApiError} = require("../errors");
 const {userService} = require("../services");
 const {User} = require("../db");
-const {userValidator} = require("../validators");
 
 module.exports = {
-    checkIsUserBodyValid: async (req, res, next) => {
-        try {
-            
-            const validate = userValidator.newUserValidator.validate(req.body);
-
-            if (validate.error) {
-                return next(new ApiError(validate.error.message, statusCode.BAD_REQUEST));
-            }
-
-            req.body = validate.value;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     //перевіряємо чи існує такий емеіл в базі
     checkIsUserEmailUniq: async (req, res, next) => {
         try {

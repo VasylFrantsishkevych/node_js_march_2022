@@ -5,6 +5,10 @@ module.exports = {
         return Car.create(carObject)
     },
 
+    getCarsByParams(filter) {
+        return Car.find(filter)
+    },
+
     getOneByParams(filter) {
         return Car.findOne(filter)
     },

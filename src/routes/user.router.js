@@ -2,6 +2,7 @@ const { Router } = require('express');
 
 const { userController } = require("../controllers");
 const { userMiddleware, commonMiddleware, authMiddleware} = require('../middlewares');
+const {newUserValidator, updateUserValidator} = require("../validators/user.validator");
 
 const userRouter = Router();
 
@@ -11,7 +12,7 @@ userRouter.get(
 );
 userRouter.post(
     '/',
-    userMiddleware.checkIsUserBodyValid,
+    commonMiddleware.checkIsBodyValid(newUserValidator),
     userMiddleware.checkIsUserEmailUniq,
     userController.createUser,
 );
@@ -24,6 +25,7 @@ userRouter.get(
 userRouter.put(
     '/:userId',
     commonMiddleware.checkIsIdValid('userId'),
+    commonMiddleware.checkIsBodyValid(updateUserValidator),
     authMiddleware.checkIsAccessToken,
     userMiddleware.isUserPresent(),
     userMiddleware.checkIsUserEmailUniq,

@@ -4,10 +4,11 @@ const { carService, userService} = require("../services");
 module.exports = {
     createCar: async (req, res, next) => {
         try {
-            const {_id, cars} = req.user
+            const {_id} = req.tokenInfo.user
             const car = await carService.createCar({...req.body, user: _id});
+            const userCars = await carService.getCarsByParams({user: _id});
 
-            await userService.updateUserById(_id, {cars: [...cars, car._id]});
+            await userService.updateUserById(_id, {cars: [...userCars, car._id]});
 
             res.status(statusCode.CREATE).json(car)
         } catch (e) {
