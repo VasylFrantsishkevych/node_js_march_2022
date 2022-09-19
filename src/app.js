@@ -16,13 +16,13 @@ app.use('/cars', carRouter);
 app.use('/users', userRouter);
 
 app.use('*', (req, res, next) => {
-  next(new Error('Route not found'));
+    next(new Error('Route not found'));
 });
 
 app.use(mainErrorHandler);
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log('App listen ', PORT);
-  mongoose.connect(MONGO_URL);
+    // eslint-disable-next-line no-console
+    console.log('App listen ', PORT);
+    mongoose.connect(MONGO_URL);
 });

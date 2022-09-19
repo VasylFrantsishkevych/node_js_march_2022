@@ -1,28 +1,28 @@
 const {User} = require('../db');
 
 module.exports = {
-  createUser(userObject) {
-    return User.create(userObject);
-  },
+    createUser(userObject) {
+        return User.create(userObject);
+    },
 
-  getAllUsers(filter = {}) {
-    return User.find(filter);
-  },
+    getAllUsers(filter = {}) {
+        return User.find(filter);
+    },
 
-  getOneByParams(filter) {
-    return User.findOne(filter);
-  },
+    getOneByParams(filter) {
+        return User.findOne(filter);
+    },
 
-  getById(id) {
-    return User.findById(id).select(['+cars'])
-      .populate('cars');
-  },
+    getById(id) {
+        return User.findById(id).select(['+cars'])
+            .populate('cars');
+    },
 
-  updateUserById(userId, newObjectToUpdate) {
-    return User.findOneAndUpdate({ _id: userId }, newObjectToUpdate, { new: true });
-  },
+    updateUserById(userId, newObjectToUpdate) {
+        return User.findOneAndUpdate({ _id: userId }, newObjectToUpdate, { new: true });
+    },
 
-  deleteUserById(userId) {
-    return User.deleteOne({ _id: userId });
-  }
+    deleteUserById(userId) {
+        return User.deleteOne({ _id: userId });
+    }
 };

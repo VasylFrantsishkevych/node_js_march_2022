@@ -7,36 +7,36 @@ const {newUserValidator, updateUserValidator} = require('../validators/user.vali
 const userRouter = Router();
 
 userRouter.get(
-  '/',
-  userController.getAllUsers,
+    '/',
+    userController.getAllUsers,
 );
 userRouter.post(
-  '/',
-  commonMiddleware.checkIsBodyValid(newUserValidator),
-  userMiddleware.checkIsUserEmailUniq,
-  userController.createUser,
+    '/',
+    commonMiddleware.checkIsBodyValid(newUserValidator),
+    userMiddleware.checkIsUserEmailUniq,
+    userController.createUser,
 );
 userRouter.get(
-  '/:userId',
-  commonMiddleware.checkIsIdValid('userId'),
-  userMiddleware.isUserPresent(),
-  userController.getUserById,
+    '/:userId',
+    commonMiddleware.checkIsIdValid('userId'),
+    userMiddleware.isUserPresent(),
+    userController.getUserById,
 );
 userRouter.put(
-  '/:userId',
-  commonMiddleware.checkIsIdValid('userId'),
-  commonMiddleware.checkIsBodyValid(updateUserValidator),
-  authMiddleware.checkIsAccessToken,
-  userMiddleware.isUserPresent(),
-  userMiddleware.checkIsUserEmailUniq,
-  userController.updateUserByID,
+    '/:userId',
+    commonMiddleware.checkIsIdValid('userId'),
+    commonMiddleware.checkIsBodyValid(updateUserValidator),
+    authMiddleware.checkIsAccessToken,
+    userMiddleware.isUserPresent(),
+    userMiddleware.checkIsUserEmailUniq,
+    userController.updateUserByID,
 );
 userRouter.delete(
-  '/:userId',
-  commonMiddleware.checkIsIdValid('userId'),
-  authMiddleware.checkIsAccessToken,
-  userMiddleware.isUserPresent(),
-  userController.deleteUserById,
+    '/:userId',
+    commonMiddleware.checkIsIdValid('userId'),
+    authMiddleware.checkIsAccessToken,
+    userMiddleware.isUserPresent(),
+    userController.deleteUserById,
 );
 
 module.exports = userRouter;
