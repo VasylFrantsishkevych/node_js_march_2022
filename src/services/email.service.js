@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer');
 const {NO_REPLY_EMAIL, NO_REPLY_PASSWORD} = require('../configs/configs');
+const emailTemplatesObj = require('../email-templates/user.email-templates');
 
-const sendEmail = (userMail) => {
+const sendEmail = (userMail, emailAction) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -10,11 +11,13 @@ const sendEmail = (userMail) => {
         }
     });
 
+    const emailInfo = emailTemplatesObj[emailAction]
+
     return transporter.sendMail({
         from: 'March 2022', // від кого повідомлення
         to: userMail, //хто отримує повідомлення
-        subject: 'Test', // тема повідомлення
-        html: '<div>Test</div>'
+        subject: emailInfo.subject, // тема повідомлення
+        html: emailInfo.html
     });
 };
 

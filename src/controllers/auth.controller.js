@@ -13,7 +13,7 @@ module.exports = {
             // зберагаємо токена в базу
             await authService.saveTokens({...authTokens, user: _id});
             //відсилаємо повідомлення на пошту
-            await sendEmail(email);
+            await sendEmail(email, 'welcome');
             res.json({
                 ...authTokens,
                 user: req.user
